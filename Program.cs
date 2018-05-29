@@ -156,7 +156,7 @@ namespace MicroDrop
                 if (firstRun)
                 {
                     // Launch using 
-                    processInfo.Arguments = "/c start " + ipythonExe;
+                    processInfo.Arguments = "/c start cmd " + ipythonExe;
                 }
                 LogHost.Default.Info(String.Format("Executing: `{0} {1}`", processInfo.FileName,
                                                    processInfo.Arguments));
