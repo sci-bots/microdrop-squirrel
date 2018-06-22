@@ -146,18 +146,17 @@ namespace MicroDrop
                 });
 
                 // Launch IPython.
-                var ipythonExe = Path.Combine(cwd, "app", "ipython.exe");
+                var exe = Path.Combine(cwd, "app", "MicroDrop.exe");
+                /* [Use `processInfo.EnvironmentVariables` as a dictionary][1] to set environment
+                 * variables of launched process.
+                 *
+                 * [1]: https://stackoverflow.com/a/14582921/345236
+                 */
                 var processInfo = new ProcessStartInfo
                 {
                     UseShellExecute = false,
-                    FileName = "cmd.exe",
-                    Arguments = "/c " + ipythonExe
+                    FileName = exe
                 };
-                if (firstRun)
-                {
-                    // Launch using 
-                    processInfo.Arguments = "/c start cmd " + ipythonExe;
-                }
                 LogHost.Default.Info(String.Format("Executing: `{0} {1}`", processInfo.FileName,
                                                    processInfo.Arguments));
                 using (var process = Process.Start(processInfo))
