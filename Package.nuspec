@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>MicroDrop</id>
+    <version>$version$</version>
+    <title>MicroDrop</title>
+    <authors>Sci-Bots Inc.</authors>
+    <owners>Christian Fobel</owners>
+    <iconUrl>https://raw.githubusercontent.com/sci-bots/microdrop/master/microdrop/microdrop.ico</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>MicroDrop - digital microfluidics control software</description>
+    <releaseNotes>Add installation splash screen.</releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>DropBot digital-microfluidics</tags>
+    <dependencies />
+  </metadata>
+  <files>
+      <file src="launcher\bin\Release\**" target="lib\net45" />
+  </files>
+</package>
