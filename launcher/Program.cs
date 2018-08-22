@@ -145,6 +145,11 @@ namespace MicroDrop
                               mgr.CreateShortcutForThisExe();
                               string changeLogFilePath = Path.Combine(cwd, @"CHANGELOG.html");
                               if (File.Exists(changeLogFilePath)) { Process.Start(changeLogFilePath); }
+                              // Execute `post-update.bat` script (if it
+                              // exists).
+                              string postUpdateScript =
+                                Path.Combine(cwd, "app", "post-update.bat");
+                              ExecScript(postUpdateScript);
                               // XXX App exits
                           },
                           onAppUninstall: v =>
