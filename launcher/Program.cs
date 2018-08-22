@@ -93,6 +93,30 @@ namespace MicroDrop
                 {
                     using (var mgr = new UpdateManager(updateUrl))
                     {
+                        Func<String, bool> ExecScript = scriptPath =>
+                        {
+                          if (File.Exists(scriptPath)) {
+                            var scriptInfo = new ProcessStartInfo
+                            {
+                                UseShellExecute = false,
+                                FileName = scriptPath
+                            };
+                            SemanticVersion version =
+                                mgr.CurrentlyInstalledVersion();
+                            scriptInfo
+                                .EnvironmentVariables["MICRODROP_VERSION"]
+                                = version.ToString();
+                            scriptInfo
+                                .EnvironmentVariables["MICRODROP_DIR"] =
+                                cwd;
+                            using (var process = Process.Start(scriptInfo))
+                            {
+                                process.WaitForExit();
+                                return true;
+                            }
+                          }
+                          return false;
+                        };
                         // XXX App exits after: `onInitialInstall`,
                         // `onAppUpdate`, `onAppUninstall`
                         SquirrelAwareApp.HandleEvents(
@@ -106,25 +130,7 @@ namespace MicroDrop
                               // exists).
                               string postInstallScript =
                                 Path.Combine(cwd, "app", "post-install.bat");
-                              if (File.Exists(postInstallScript)) {
-                                var scriptInfo = new ProcessStartInfo
-                                {
-                                    UseShellExecute = false,
-                                    FileName = postInstallScript
-                                };
-                                SemanticVersion version =
-                                    mgr.CurrentlyInstalledVersion();
-                                scriptInfo
-                                    .EnvironmentVariables["MICRODROP_VERSION"]
-                                    = version.ToString();
-                                scriptInfo
-                                    .EnvironmentVariables["MICRODROP_DIR"] =
-                                    cwd;
-                                using (var process = Process.Start(scriptInfo))
-                                {
-                                    process.WaitForExit();
-                                }
-                              }
+                              ExecScript(postInstallScript);
                               // XXX App exits
                           },
                           onAppUpdate: v =>
