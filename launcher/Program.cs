@@ -137,6 +137,8 @@ namespace MicroDrop
                               MessageBox.Show(message);
                               LogHost.Default.Info("onAppUpdate: " + message);
                               mgr.CreateShortcutForThisExe();
+                              string changeLogFilePath = Path.Combine(cwd, @"CHANGELOG.html");
+                              if (File.Exists(changeLogFilePath)) { Process.Start(changeLogFilePath); }
                               // XXX App exits
                           },
                           onAppUninstall: v =>
