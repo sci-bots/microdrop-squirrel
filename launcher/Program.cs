@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Diagnostics;
@@ -212,6 +213,15 @@ namespace MicroDrop
                   processInfo.EnvironmentVariables["MICRODROP_FIRST_RUN"] =
                     "1";
                 }
+                // Set environment variables with screen dimensions.
+                Rectangle screen = Screen.PrimaryScreen.WorkingArea;
+                processInfo.EnvironmentVariables["SCREEN_HEIGHT"] =
+                  screen.Height.ToString();
+                processInfo.EnvironmentVariables["SCREEN_WIDTH"] =
+                  screen.Width.ToString();
+                LogHost.Default.Info(String.Format("Screen size: W{0}xH{1}`",
+                                                   screen.Width,
+                                                   screen.Height));
                 LogHost.Default.Info(String.Format("Executing: `{0} {1}`", processInfo.FileName,
                                                    processInfo.Arguments));
                 using (var process = Process.Start(processInfo))
