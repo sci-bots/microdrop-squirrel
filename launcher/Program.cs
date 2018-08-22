@@ -15,16 +15,18 @@ namespace MicroDrop
     public class FileLogger : Splat.ILogger, IDisposable
     {
         StreamWriter output;
+        string UUID;
 
         public FileLogger(string logPath)
         {
-            this.output = new StreamWriter(logPath);
+            this.output = new StreamWriter(logPath, append: true);
+            this.UUID = Guid.NewGuid().ToString();
         }
         public LogLevel Level { get; set; } = LogLevel.Debug;
 
         public void Write([Localizable(false)] string message, LogLevel logLevel)
         {
-            output.WriteLine(message);
+            output.WriteLine(UUID + " " + message);
         }
 
         public void Dispose()
@@ -113,6 +115,7 @@ namespace MicroDrop
                           },
                           onFirstRun: () =>
                           {
+                              // First run after initial installation.
                               firstRun = true;
                               MessageBox.Show("onFirstRun");
                               LogHost.Default.Info("onFirstRun");
