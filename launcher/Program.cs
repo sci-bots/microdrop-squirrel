@@ -98,7 +98,9 @@ namespace MicroDrop
                         SquirrelAwareApp.HandleEvents(
                           onInitialInstall: v =>
                           {
-                              LogHost.Default.Info(String.Format("Installed {0} `{1}`.", appTitle, v));
+                              var message = String.Format("Installed {0} `{1}` ({2}).",
+                                                          appTitle, v, cwd);
+                              LogHost.Default.Info(message);
                               mgr.CreateShortcutForThisExe();
                               // XXX App exits
                           },
