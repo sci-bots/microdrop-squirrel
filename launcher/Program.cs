@@ -219,9 +219,21 @@ namespace MicroDrop
                   screen.Height.ToString();
                 processInfo.EnvironmentVariables["SCREEN_WIDTH"] =
                   screen.Width.ToString();
-                LogHost.Default.Info(String.Format("Screen size: W{0}xH{1}`",
+                processInfo.EnvironmentVariables["SCREEN_LEFT"] =
+                  screen.Left.ToString();
+                processInfo.EnvironmentVariables["SCREEN_TOP"] =
+                  screen.Top.ToString();
+                processInfo.EnvironmentVariables["TITLEBAR_HEIGHT"] =
+                  SystemInformation.CaptionHeight.ToString();
+                LogHost.Default.Info(String.Format("Screen size: " +
+                                                   "W{0}xH{1}@({2}, {3}) " +
+                                                   "Titlebar height: {4}",
                                                    screen.Width,
-                                                   screen.Height));
+                                                   screen.Height,
+                                                   screen.Left,
+                                                   screen.Top,
+                                                   SystemInformation
+                                                   .CaptionHeight));
                 LogHost.Default.Info(String.Format("Executing: `{0} {1}`", processInfo.FileName,
                                                    processInfo.Arguments));
                 using (var process = Process.Start(processInfo))
