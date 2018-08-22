@@ -196,6 +196,12 @@ namespace MicroDrop
                     UseShellExecute = false,
                     FileName = exe
                 };
+                if (firstRun) {
+                  // Notify MicroDrop that this is first run after initial
+                  // installation.
+                  processInfo.EnvironmentVariables["MICRODROP_FIRST_RUN"] =
+                    "1";
+                }
                 LogHost.Default.Info(String.Format("Executing: `{0} {1}`", processInfo.FileName,
                                                    processInfo.Arguments));
                 using (var process = Process.Start(processInfo))
