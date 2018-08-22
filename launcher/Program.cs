@@ -153,7 +153,6 @@ namespace MicroDrop
                               firstRun = true;
                               var message = String.Format("onFirstRun (`{0}`)", cwd);
                               LogHost.Default.Info(message);
-                              MessageBox.Show(message);
                               // XXX App **DOES NOT EXIT**.
                           });
                     }
