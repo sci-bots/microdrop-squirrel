@@ -93,13 +93,14 @@ namespace MicroDrop
                 {
                     using (var mgr = new UpdateManager(updateUrl))
                     {
-                        // Note, in most of these scenarios, the app exits after this method
-                        // completes!
+                        // XXX App exits after: `onInitialInstall`,
+                        // `onAppUpdate`, `onAppUninstall`
                         SquirrelAwareApp.HandleEvents(
                           onInitialInstall: v =>
                           {
                               LogHost.Default.Info(String.Format("Installed {0} `{1}`.", appTitle, v));
                               mgr.CreateShortcutForThisExe();
+                              // XXX App exits
                           },
                           onAppUpdate: v =>
                           {
@@ -107,11 +108,13 @@ namespace MicroDrop
                                                             "load on next launch.", appTitle, v));
                               LogHost.Default.Info("onAppUpdate");
                               mgr.CreateShortcutForThisExe();
+                              // XXX App exits
                           },
                           onAppUninstall: v =>
                           {
                               LogHost.Default.Info("onAppUninstall");
                               mgr.RemoveShortcutForThisExe();
+                              // XXX App exits
                           },
                           onFirstRun: () =>
                           {
@@ -119,6 +122,7 @@ namespace MicroDrop
                               firstRun = true;
                               MessageBox.Show("onFirstRun");
                               LogHost.Default.Info("onFirstRun");
+                              // XXX App **DOES NOT EXIT**.
                           });
                     }
                 } catch
@@ -148,7 +152,7 @@ namespace MicroDrop
                     }
                 });
 
-                // Launch IPython.
+                // Launch MicroDrop.
                 var exe = Path.Combine(cwd, "app", "MicroDrop.exe");
                 /* [Use `processInfo.EnvironmentVariables` as a dictionary][1] to set environment
                  * variables of launched process.
