@@ -102,6 +102,29 @@ namespace MicroDrop
                                                           appTitle, v, cwd);
                               LogHost.Default.Info(message);
                               mgr.CreateShortcutForThisExe();
+                              // Execute `post-install.bat` script (if it
+                              // exists).
+                              string postInstallScript =
+                                Path.Combine(cwd, "app", "post-install.bat");
+                              if (File.Exists(postInstallScript)) {
+                                var scriptInfo = new ProcessStartInfo
+                                {
+                                    UseShellExecute = false,
+                                    FileName = postInstallScript
+                                };
+                                SemanticVersion version =
+                                    mgr.CurrentlyInstalledVersion();
+                                scriptInfo
+                                    .EnvironmentVariables["MICRODROP_VERSION"]
+                                    = version.ToString();
+                                scriptInfo
+                                    .EnvironmentVariables["MICRODROP_DIR"] =
+                                    cwd;
+                                using (var process = Process.Start(scriptInfo))
+                                {
+                                    process.WaitForExit();
+                                }
+                              }
                               // XXX App exits
                           },
                           onAppUpdate: v =>
