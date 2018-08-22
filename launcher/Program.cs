@@ -106,9 +106,13 @@ namespace MicroDrop
                           },
                           onAppUpdate: v =>
                           {
-                              MessageBox.Show(String.Format("Updated {0} `{1}` will " +
-                                                            "load on next launch.", appTitle, v));
-                              LogHost.Default.Info("onAppUpdate");
+                              SemanticVersion version = mgr.CurrentlyInstalledVersion();
+                              String message =
+                                String.Format("Updated {0}. Version `{1}` " +
+                                              "will load on next launch.",
+                                              appTitle, version);
+                              MessageBox.Show(message);
+                              LogHost.Default.Info("onAppUpdate: " + message);
                               mgr.CreateShortcutForThisExe();
                               // XXX App exits
                           },
