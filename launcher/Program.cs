@@ -149,8 +149,9 @@ namespace MicroDrop
                           {
                               // First run after initial installation.
                               firstRun = true;
-                              MessageBox.Show("onFirstRun");
-                              LogHost.Default.Info("onFirstRun");
+                              var message = String.Format("onFirstRun (`{0}`)", cwd);
+                              LogHost.Default.Info(message);
+                              MessageBox.Show(message);
                               // XXX App **DOES NOT EXIT**.
                           });
                     }
