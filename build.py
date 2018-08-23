@@ -28,7 +28,7 @@ def build(squirrel_version):
                    squirrel_version])
 
     logging.info('Generate Squirrel release.')
-    sp.check_call(['Squirrel.com', '--no-msi', '--no-delta', '-i',
+    sp.check_call(['Squirrel.com', '--no-msi', '-i',
                    'launcher/microdrop.ico', '-g',
                    'microdrop-installation-splash.gif', '--releasify',
                    'MicroDrop.%s.nupkg' % squirrel_version])
