@@ -216,6 +216,9 @@ namespace MicroDrop
                 // Set `Help > Online help...` URL to DropBot v3 User Guide
                 processInfo.EnvironmentVariables["MICRODROP_HELP_URL"] =
                   "https://sci-bots.com/userguide";
+                // Set `SCI-BOTS 90-pin array` as default device.
+                processInfo.EnvironmentVariables["MICRODROP_DEFAULT_DEVICE"] =
+                  "SCI-BOTS 90-pin array";
                 // Set environment variables with screen dimensions.
                 Rectangle screen = Screen.PrimaryScreen.WorkingArea;
                 processInfo.EnvironmentVariables["SCREEN_HEIGHT"] =
