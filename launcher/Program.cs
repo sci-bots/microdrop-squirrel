@@ -213,6 +213,9 @@ namespace MicroDrop
                   processInfo.EnvironmentVariables["MICRODROP_FIRST_RUN"] =
                     "1";
                 }
+                // Set `Help > Online help...` URL to DropBot v3 User Guide
+                processInfo.EnvironmentVariables["MICRODROP_HELP_URL"] =
+                  "https://sci-bots.com/userguide";
                 // Set environment variables with screen dimensions.
                 Rectangle screen = Screen.PrimaryScreen.WorkingArea;
                 processInfo.EnvironmentVariables["SCREEN_HEIGHT"] =
