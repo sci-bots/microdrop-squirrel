@@ -7,7 +7,7 @@ import subprocess as sp
 import path_helpers as ph
 
 
-def build(squirrel_version):
+def build(squirrel_version, delta=True):
     logging.info('Build MicroDrop launcher executable')
 
     cwd = os.getcwd()
@@ -28,10 +28,13 @@ def build(squirrel_version):
                    squirrel_version])
 
     logging.info('Generate Squirrel release.')
-    sp.check_call(['Squirrel.com', '--no-msi', '-i',
-                   'launcher/microdrop.ico', '-g',
-                   'microdrop-installation-splash.gif', '--releasify',
-                   'MicroDrop.%s.nupkg' % squirrel_version])
+    command = ['Squirrel.com', '--no-msi', '-i', 'launcher/microdrop.ico',
+               '-g', 'microdrop-installation-splash.gif', '--releasify',
+               'MicroDrop.%s.nupkg' % squirrel_version]
+    if not delta:
+        command.insert(0, '--no-delta')
+    logging.info('calling: `%s`', sp.list2cmdline(command))
+    sp.check_call(command)
     logging.info('Done')
 
 
@@ -62,6 +65,8 @@ if __name__ == '__main__':
 
     parser.add_argument('microdrop_exe_source', type=ph.path)
     parser.add_argument('version', help='Override Squirrel app version')
+    parser.add_argument('--no-delta', help='Skip generation of Squirrel delta '
+                        'release', action='store_true')
     parser.add_argument('-f', '--force', help='Force overwrite of output '
                         'directory.', action='store_true')
 
@@ -95,4 +100,4 @@ if __name__ == '__main__':
         # Squirrel app tree.
         args.microdrop_exe_dir.copytree(squirrel_app_dir)
 
-    build(squirrel_version=args.version)
+    build(squirrel_version=args.version, delta=not args.no_delta)
