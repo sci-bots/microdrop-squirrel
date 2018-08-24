@@ -98,6 +98,6 @@ if __name__ == '__main__':
     elif args.microdrop_exe_source.realpath() != squirrel_app_dir.realpath():
         # MicroDrop executable release directory specified.  Copy it to the
         # Squirrel app tree.
-        args.microdrop_exe_dir.copytree(squirrel_app_dir)
+        args.microdrop_exe_source.copytree(squirrel_app_dir)
 
     build(squirrel_version=args.version, delta=not args.no_delta)
