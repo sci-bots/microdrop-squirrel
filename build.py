@@ -32,7 +32,7 @@ def build(squirrel_version, delta=True):
                '-g', 'microdrop-installation-splash.gif', '--releasify',
                'MicroDrop.%s.nupkg' % squirrel_version]
     if not delta:
-        command.insert(0, '--no-delta')
+        command.insert(1, '--no-delta')
     logging.info('calling: `%s`', sp.list2cmdline(command))
     sp.check_call(command)
     logging.info('Done')
