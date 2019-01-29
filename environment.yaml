@@ -1,0 +1,13 @@
+name: microdrop-squirrel
+channels:
+  - sci-bots
+  - conda-forge
+  - defaults
+dependencies:
+  - 7za
+  - curl
+  - path_helpers
+  - python
+  - six
+  - squirrel
+  - whichcraft

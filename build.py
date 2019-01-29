@@ -1,10 +1,13 @@
+from __future__ import print_function
 from argparse import ArgumentParser
-from urllib import urlretrieve
 import logging
 import os
+import sys
 import subprocess as sp
 
+from six.moves.urllib.request import urlretrieve
 import path_helpers as ph
+import whichcraft
 
 
 def build(squirrel_version, delta=True):
@@ -28,8 +31,21 @@ def build(squirrel_version, delta=True):
                    squirrel_version])
 
     logging.info('Generate Squirrel release.')
-    command = ['Squirrel.com', '--no-msi', '-i', 'launcher/microdrop.ico',
-               '-g', 'microdrop-installation-splash.gif', '--releasify',
+
+    squirrel_com = whichcraft.which('Squirrel.com')
+    if squirrel_com is None:
+        # Squirrel.com was not found on system path.  Try to find version from
+        # Conda package.
+        squirrel_com = whichcraft.which('Squirrel.com',
+                                        path=r'%s\Library\usr\bin\squirrel;' %
+                                        os.environ['CONDA_PREFIX'])
+        if squirrel_com is None:
+            # Conda packaged Squirrel.com was not found.
+            print('`Squirrel.com` was not found.', file=sys.stderr)
+            sys.exit(-1)
+
+    command = [squirrel_com, '--no-msi', '-i', 'launcher/microdrop.ico', '-g',
+               'microdrop-installation-splash.gif', '--releasify',
                'MicroDrop.%s.nupkg' % squirrel_version]
     if not delta:
         command.insert(1, '--no-delta')
